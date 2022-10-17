@@ -87,7 +87,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
                 check = self._check_if_guess_exists(guess)
                 if len(guess) != self.word_length:
                     print(f"Remember: {self.word_length}-letter word.")
-                if len(guess) == self.word_length and check != True:
+                elif not check:
                     print("I don't recognize this word.")    
 
             clues = self.get_clues(guess, secret_word)
