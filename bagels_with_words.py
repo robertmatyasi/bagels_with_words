@@ -63,11 +63,12 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         f'&minLength={self.word_length}&maxLength={self.word_length}' \
         f'&api_key={self.api_key}'
 
-        r = requests.get(url)
-        response_dict = r.json()
-
-        word = response_dict['word'].lower()
-        return word
+        while True:
+            r = requests.get(url)
+            if r.status_code == 200:
+                response_dict = r.json()
+                word = response_dict['word'].lower()
+                return word
 
     def guess_loop(self, secret_word):
         """
@@ -107,14 +108,12 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         'sourceDictionaries=ahd-5%2Ccentury%2Cwiktionary%2Cwebster%2Cwordnet&' \
         f'useCanonical=false&includeTags=false&api_key={self.api_key}'
 
-        r = requests.get(url)
-        response_dict = r.json()
-
-        try: 
-            if response_dict[0]['partOfSpeech']:
+        while True:
+            r = requests.get(url)
+            if r.status_code == 200:
                 return True
-        except:
-            return False
+            elif r.status_code == 404:
+                return False
 
     def _get_frequency(self, word):
         """Take a word and return a dictionary with letters as the key and 
