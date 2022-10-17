@@ -75,10 +75,17 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         """
         num_guesses = 1
         while num_guesses <= self.max_guesses:
-            guess = ''
-            check = True
+            print(f'Guess #{num_guesses}: ')
+            guess = input('> ')
             # Keep looping until they enter a valid guess:
-            while len(guess) != self.word_length or check != True:
+            while len(guess) != self.word_length:
+                print(f"Remember: {self.word_length}-letter word.")
+                print(f'Guess #{num_guesses}: ')
+                guess = input('> ')
+            
+            check = self._check_if_guess_exists(guess)
+            while check != True:
+                print("I don't recognize this word.")
                 print(f'Guess #{num_guesses}: ')
                 guess = input('> ')
                 check = self._check_if_guess_exists(guess)
@@ -110,7 +117,6 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
             if response_dict[0]['partOfSpeech']:
                 return True
         except:
-            print("I don't recognize this word.")
             return False
 
     def _get_frequency(self, word):
