@@ -52,15 +52,16 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
 
     def get_secret_word(self):
         """Look up a secret word with the specified length with Wordnik."""
-        url = f'''https://api.wordnik.com/v4/words.json/randomWord?
-        hasDictionaryDef=true&includePartOfSpeech=noun%2C%20adjective%2C%20verb
-        %2C%20verb-intransitive%2C%20verb-transitive%2C%20adverb%2C%20pronoun
-        %2C%20preposition%2C%20past-participle&excludePartOfSpeech=family-name
-        %2C%20given-name%2C%20noun-plural%2C%20noun-posessive%2C%20proper-noun
-        %2C%20proper-noun-plural%2C%20proper-noun-posessive&minCorpusCount=10000
-        &maxCorpusCount=-1&minDictionaryCount=20&maxDictionaryCount=-1&
-        minLength={self.word_length}&maxLength={self.word_length}
-        &api_key={self.api_key}'''
+        url = 'https://api.wordnik.com/v4/words.json/randomWord?' \
+        'hasDictionaryDef=true&includePartOfSpeech=noun%2C%20adjective' \
+        '%2C%20verb%2C%20verb-intransitive%2C%20verb-transitive%2C%20adverb' \
+        '%2C%20pronoun%2C%20preposition%2C%20past-participle' \
+        '&excludePartOfSpeech=family-name%2C%20given-name%2C%20noun-plural' \
+        '%2C%20noun-posessive%2C%20proper-noun%2C%20proper-noun-plural' \
+        '%2C%20proper-noun-posessive&minCorpusCount=10000' \
+        '&maxCorpusCount=-1&minDictionaryCount=20&maxDictionaryCount=-1' \
+        f'&minLength={self.word_length}&maxLength={self.word_length}' \
+        f'&api_key={self.api_key}'
 
         r = requests.get(url)
         response_dict = r.json()
@@ -101,10 +102,10 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         Use the Wordnik api for checking whether a word exists in its
         dictionaries.
         """
-        url = f'''https://api.wordnik.com/v4/word.json/{guess}/definitions?
-        limit=200&includeRelated=false&
-        sourceDictionaries=ahd-5%2Ccentury%2Cwiktionary%2Cwebster%2Cwordnet&
-        useCanonical=false&includeTags=false&api_key={self.api_key}'''
+        url = f'https://api.wordnik.com/v4/word.json/{guess}/definitions?' \
+        'limit=200&includeRelated=false&' \
+        'sourceDictionaries=ahd-5%2Ccentury%2Cwiktionary%2Cwebster%2Cwordnet&' \
+        f'useCanonical=false&includeTags=false&api_key={self.api_key}'
 
         r = requests.get(url)
         response_dict = r.json()
