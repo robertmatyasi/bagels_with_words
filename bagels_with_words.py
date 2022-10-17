@@ -81,7 +81,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         while num_guesses <= self.max_guesses:
             guess = ''
             # Keep looping until they enter a valid guess:
-            while len(guess) != self.word_length or check != True:
+            while len(guess) != self.word_length or not check:
                 print(f'Guess #{num_guesses}: ')
                 guess = input('> ')
                 check = self._check_if_guess_exists(guess)
