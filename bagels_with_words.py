@@ -83,19 +83,21 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
             # Keep looping until they enter a valid guess:
             while len(guess) != self.word_length or not check:
                 print(f'Guess #{num_guesses}: ')
-                guess = input('> ')
+                guess = input('> ').lower()
                 check = self._check_if_guess_exists(guess)
                 if len(guess) != self.word_length:
                     print(f"Remember: {self.word_length}-letter word.")
                 elif not check:
                     print("I don't recognize this word.")    
 
+            if guess == secret_word:
+                print(f"You got it in {num_guesses} guesses!")
+                break # They're correct, so break out of this loop.
+
             clues = self.get_clues(guess, secret_word)
             print(clues)
             num_guesses += 1
 
-            if guess == secret_word:
-                break # They're correct, so break out of this loop.
             if num_guesses > self.max_guesses:
                 print('You ran out of guesses.')
                 print(f'The answer was {secret_word}.')
@@ -132,9 +134,6 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         letter_frequency = self._get_frequency(secret_word)
         clues = ["", "", "", "", ""]
 
-        # Correct guess.
-        if guess == secret_word:
-            return 'You got it!'
         # Check for all correct letters in the correct place.
         for i in range(self.word_length):
             if guess[i] == secret_word[i]:
