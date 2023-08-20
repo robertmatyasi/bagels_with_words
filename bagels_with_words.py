@@ -164,5 +164,5 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
 
 # If the program is run (instead of imported), run the game:
 if (__name__) == ('__main__'):
-    bw = BagelsWithWords(6, 10) # Five letters. Ten guesses.
+    bw = BagelsWithWords(5, 10) # Five letters. Ten guesses.
     bw.run_game()
