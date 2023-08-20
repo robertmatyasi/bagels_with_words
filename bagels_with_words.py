@@ -29,12 +29,12 @@ class BagelsWithWords:
             # Ask the player if they want to play again.
             print('Do you want to play again? (yes or no)')
             if not input('> ').lower().startswith('y'):
-                break       
+                break
         print('Thanks for playing!')
 
     def intro(self):
         print(f'''\nBagels with Words, a deductive logic game.
-        
+
 Based on Bagels, by Al Sweigart. Inspired by Wordle. Powered by Wordnik.
 
 I am thinking of a {self.word_length}-letter word.
@@ -47,7 +47,7 @@ Here are some clues:
     Bruno         Letter is not in the secret word.
     Bagels        No letter is correct.
 
-For example, if the secret word was "rumba" and your guess was "raspy", 
+For example, if the secret word was "rumba" and your guess was "raspy",
 the clues would be "Fermi Pico Bruno Bruno Bruno".''')
 
     def get_secret_word(self):
@@ -88,7 +88,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
                 if len(guess) != self.word_length:
                     print(f"Remember: {self.word_length}-letter word.")
                 elif not check:
-                    print("I don't recognize this word.")    
+                    print("I don't recognize this word.")
 
             if guess == secret_word:
                 print(f"You got it in {num_guesses} guesses!")
@@ -120,7 +120,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
                 return False
 
     def _get_frequency(self, word):
-        """Take a word and return a dictionary with letters as the key and 
+        """Take a word and return a dictionary with letters as the key and
         their frequency as the value."""
         freq = {}
         for keys in word:
@@ -132,7 +132,9 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         and secret word pair."""
 
         letter_frequency = self._get_frequency(secret_word)
-        clues = ["", "", "", "", ""]
+        clues = []
+        for i in range (self.word_length):
+            clues.append("")
 
         # Check for all correct letters in the correct place.
         for i in range(self.word_length):
@@ -153,7 +155,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
                 # Incorrect letter.
                 except:
                     clues[i] = 'Bruno'
-        # There are no correct letters at all.  
+        # There are no correct letters at all.
         if all(i == "Bruno" for i in clues):
             return 'Bagels'
         else:
@@ -161,6 +163,6 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
             return ' '.join(clues)
 
 # If the program is run (instead of imported), run the game:
-if __name__ == '__main__':
-    bw = BagelsWithWords(5, 10) # Five letters. Ten guesses.
+if (__name__) == ('__main__'):
+    bw = BagelsWithWords(6, 10) # Five letters. Ten guesses.
     bw.run_game()
