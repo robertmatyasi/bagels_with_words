@@ -26,15 +26,17 @@ class BagelsWithWords:
             secret_word = self.get_secret_word()
             print('\nI have thought up a word.')
             print(f'You have {self.max_guesses} guesses to get.\n')
+            print('Press \'Q\' at any time to quit.\n')
             # Initiate loop for guesses.
             self.guess_loop(secret_word)
             # Ask the player if they want to play again.
-            print('Do you want to play again? (yes or no)')
-            if not input('> ').lower().startswith('y'):
+            if not input('Do you want to play again? (y/n): ').lower(
+            ).startswith('y'):
                 break
         print('Thanks for playing!')
 
     def intro(self):
+
         print(f'''\nBagels with Words, a deductive logic game.
 
 Based on Bagels, by Al Sweigart. Inspired by Wordle. Powered by Wordnik.
@@ -79,18 +81,33 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         Ask user for guesses. Enumerates guesses.
         Compare guesses to secret word.
         """
+
         num_guesses = 1
+        quit_flag = False
         while num_guesses <= self.max_guesses:
             guess = ''
             # Keep looping until they enter a valid guess:
             while len(guess) != self.word_length or not check:
                 print(f'Guess #{num_guesses}: ')
                 guess = input('> ').lower()
+
+                if guess.lower() == 'q':
+                    confirm = input('Are you sure you want to quit? (y/n): ')
+                    if confirm.lower().startswith('y'):
+                        print('Well, you tried.')
+                        quit_flag = 'True'
+                        break  # user wants to quit, so get them out
+                    else:
+                        continue
+
                 check = self._check_if_guess_exists(guess)
                 if len(guess) != self.word_length:
                     print(f"Remember: {self.word_length}-letter word.")
                 elif not check:
                     print("I don't recognize this word.")
+
+            if quit_flag:
+                break
 
             if guess == secret_word:
                 print(f"You got it in {num_guesses} guesses!")
