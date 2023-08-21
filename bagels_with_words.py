@@ -1,11 +1,13 @@
 import requests, json
 
+
 class BagelsWithWords:
     """
     A deductive logic game where you must guess a word based on clues.
     Based on Bagels, by Al Sweigart. Inspired by Wordle. Powered by Wordnik.
     Tags: short, game, puzzle
     """
+
     def __init__(self, word_length, max_guesses):
         self.word_length = word_length
         self.max_guesses = max_guesses
@@ -19,7 +21,7 @@ class BagelsWithWords:
     def run_game(self):
         """Main loop for the game."""
         self.intro()
-        while True:     # Main game loop.
+        while True:  # Main game loop.
             # This stores the secret number the player needs to guess:
             secret_word = self.get_secret_word()
             print('\nI have thought up a word.')
@@ -92,7 +94,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
 
             if guess == secret_word:
                 print(f"You got it in {num_guesses} guesses!")
-                break # They're correct, so break out of this loop.
+                break  # They're correct, so break out of this loop.
 
             clues = self.get_clues(guess, secret_word)
             print(clues)
@@ -133,7 +135,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
 
         letter_frequency = self._get_frequency(secret_word)
         clues = []
-        for i in range (self.word_length):
+        for i in range(self.word_length):
             clues.append("")
 
         # Check for all correct letters in the correct place.
@@ -162,7 +164,8 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
             # Make a single string from the list of string clues.
             return ' '.join(clues)
 
+
 # If the program is run (instead of imported), run the game:
 if (__name__) == ('__main__'):
-    bw = BagelsWithWords(5, 10) # Five letters. Ten guesses.
+    bw = BagelsWithWords(5, 10)  # default is 5 letters, 10 guesses
     bw.run_game()
