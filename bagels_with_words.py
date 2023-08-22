@@ -1,4 +1,4 @@
-import requests, json
+import requests, json, sys
 
 
 class BagelsWithWords:
@@ -26,7 +26,7 @@ class BagelsWithWords:
             secret_word = self.get_secret_word()
             print('\nI have thought up a word.')
             print(f'You have {self.max_guesses} guesses to get.\n')
-            print('Press \'Q\' at any time to quit.\n')
+            print('Enter \'q\' at any time to quit.\n')
             # Initiate loop for guesses.
             self.guess_loop(secret_word)
             # Ask the player if they want to play again.
@@ -94,9 +94,8 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
                 if guess.lower() == 'q':
                     confirm = input('Are you sure you want to quit? (y/n): ')
                     if confirm.lower().startswith('y'):
-                        print('Well, you tried.')
-                        quit_flag = 'True'
-                        break  # user wants to quit, so get them out
+                        print('Thanks for playing!')
+                        sys.exit()
                     else:
                         continue
 
@@ -141,6 +140,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
     def _get_frequency(self, word):
         """Take a word and return a dictionary with letters as the key and
         their frequency as the value."""
+
         freq = {}
         for keys in word:
             freq[keys] = freq.get(keys, 0) + 1
