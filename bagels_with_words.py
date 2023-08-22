@@ -1,4 +1,4 @@
-import requests, json
+import requests, json, sys
 
 class BagelsWithWords:
     """
@@ -24,7 +24,7 @@ class BagelsWithWords:
             secret_word = self.get_secret_word()
             print('\nI have thought up a word.')
             print(f'You have {self.max_guesses} guesses to get.\n')
-            print('Press \'Q\' at any time to quit.\n')
+            print('Enter \'q\' at any time to quit.\n')
             # Initiate loop for guesses.
             self.guess_loop(secret_word)
             # Ask the player if they want to play again.
@@ -34,7 +34,6 @@ class BagelsWithWords:
         print('Thanks for playing!')
 
     def intro(self):
-
         print(f'''\nBagels with Words, a deductive logic game.
 
 Based on Bagels, by Al Sweigart. Inspired by Wordle. Powered by Wordnik.
@@ -66,7 +65,6 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         '&minDictionaryCount=20&maxDictionaryCount=-1' \
         f'&minLength={self.word_length}&maxLength={self.word_length}' \
         f'&api_key={self.api_key}'
-
         while True:
             r = requests.get(url)
             if r.status_code == 200:
@@ -79,9 +77,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         Ask user for guesses. Enumerates guesses.
         Compare guesses to secret word.
         """
-
         num_guesses = 1
-        quit_flag = False
         while num_guesses <= self.max_guesses:
             guess = ''
             # Keep looping until they enter a valid guess:
@@ -92,9 +88,8 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
                 if guess.lower() == 'q':
                     confirm = input('Are you sure you want to quit? (y/n): ')
                     if confirm.lower().startswith('y'):
-                        print('Well, you tried.')
-                        quit_flag = 'True'
-                        break  # user wants to quit, so get them out
+                        print('Thanks for playing!')
+                        sys.exit()
                     else:
                         continue
 
@@ -103,9 +98,6 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
                     print(f"Remember: {self.word_length}-letter word.")
                 elif not check:
                     print("I don't recognize this word.")
-
-            if quit_flag:
-                break
 
             if guess == secret_word:
                 print(f"You got it in {num_guesses} guesses!")
@@ -128,7 +120,6 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         'limit=200&includeRelated=false&' \
         'sourceDictionaries=ahd-5%2Ccentury%2Cwiktionary%2Cwebster%2Cwordnet&' \
         f'useCanonical=false&includeTags=false&api_key={self.api_key}'
-
         while True:
             r = requests.get(url)
             if r.status_code == 200:
