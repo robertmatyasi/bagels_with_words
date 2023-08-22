@@ -6,6 +6,7 @@ class BagelsWithWords:
     Based on Bagels, by Al Sweigart. Inspired by Wordle. Powered by Wordnik.
     Tags: short, game, puzzle
     """
+
     def __init__(self, word_length, max_guesses):
         self.word_length = word_length
         self.max_guesses = max_guesses
@@ -65,6 +66,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         '&minDictionaryCount=20&maxDictionaryCount=-1' \
         f'&minLength={self.word_length}&maxLength={self.word_length}' \
         f'&api_key={self.api_key}'
+
         while True:
             r = requests.get(url)
             if r.status_code == 200:
@@ -77,6 +79,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         Ask user for guesses. Enumerates guesses.
         Compare guesses to secret word.
         """
+
         num_guesses = 1
         while num_guesses <= self.max_guesses:
             guess = ''
@@ -120,6 +123,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         'limit=200&includeRelated=false&' \
         'sourceDictionaries=ahd-5%2Ccentury%2Cwiktionary%2Cwebster%2Cwordnet&' \
         f'useCanonical=false&includeTags=false&api_key={self.api_key}'
+
         while True:
             r = requests.get(url)
             if r.status_code == 200:
@@ -130,6 +134,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
     def _get_frequency(self, word):
         """Take a word and return a dictionary with letters as the key and
         their frequency as the value."""
+
         freq = {}
         for keys in word:
             freq[keys] = freq.get(keys, 0) + 1
