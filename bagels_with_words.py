@@ -1,4 +1,4 @@
-import requests, json
+import requests, json, sys
 
 class BagelsWithWords:
     """
@@ -6,6 +6,7 @@ class BagelsWithWords:
     Based on Bagels, by Al Sweigart. Inspired by Wordle. Powered by Wordnik.
     Tags: short, game, puzzle
     """
+
     def __init__(self, word_length, max_guesses):
         self.word_length = word_length
         self.max_guesses = max_guesses
@@ -24,11 +25,12 @@ class BagelsWithWords:
             secret_word = self.get_secret_word()
             print('\nI have thought up a word.')
             print(f'You have {self.max_guesses} guesses to get.\n')
+            print('Enter \'q\' at any time to quit.\n')
             # Initiate loop for guesses.
             self.guess_loop(secret_word)
             # Ask the player if they want to play again.
-            print('Do you want to play again? (yes or no)')
-            if not input('> ').lower().startswith('y'):
+            if not input('Do you want to play again? (y/n): ').lower(
+            ).startswith('y'):
                 break
         print('Thanks for playing!')
 
@@ -77,6 +79,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         Ask user for guesses. Enumerates guesses.
         Compare guesses to secret word.
         """
+
         num_guesses = 1
         while num_guesses <= self.max_guesses:
             guess = ''
@@ -84,6 +87,15 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
             while len(guess) != self.word_length or not check:
                 print(f'Guess #{num_guesses}: ')
                 guess = input('> ').lower()
+
+                if guess.lower() == 'q':
+                    confirm = input('Are you sure you want to quit? (y/n): ')
+                    if confirm.lower().startswith('y'):
+                        print('Thanks for playing!')
+                        sys.exit()
+                    else:
+                        continue
+
                 check = self._check_if_guess_exists(guess)
                 if len(guess) != self.word_length:
                     print(f"Remember: {self.word_length}-letter word.")
@@ -122,6 +134,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
     def _get_frequency(self, word):
         """Take a word and return a dictionary with letters as the key and
         their frequency as the value."""
+
         freq = {}
         for keys in word:
             freq[keys] = freq.get(keys, 0) + 1
