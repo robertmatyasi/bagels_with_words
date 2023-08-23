@@ -9,7 +9,7 @@ class BagelsWithWords:
     """
 
     def __init__(self, word_length, max_guesses):
-        self.word_length = word_length
+        self._word_length = word_length
         self.max_guesses = max_guesses
         # This program requires a Wordnik api key.
         # Get one here: https://developer.wordnik.com
@@ -18,8 +18,44 @@ class BagelsWithWords:
             self.config = json.load(f)
         self.api_key = self.config["wordnik"]["api_key"]
 
+    @property
+    def word_length(self):
+        return self._word_length
+
+    @word_length.setter
+    def word_length(self, length):
+        length = int(length)
+        if not isinstance(length, int):
+            print("Please enter a positive integer")
+        if length < 1:
+            print("Please enter a positive integer")
+
+        self._word_length = length
+
+    @word_length.getter
+    def word_length(self):
+        return self._word_length
+
+    def pre_intro(self):
+
+        while True:
+            user_length = input("""
+            How many letters should the secret word be?
+            \'RET\' defaults to 5.\n
+            """)
+
+            if user_length == '':
+                break  # keep default length of 5
+
+            try:
+                self.word_length = user_length
+                break
+            except ValueError:
+                continue
+
     def run_game(self):
         """Main loop for the game."""
+        self.pre_intro()
         self.intro()
         while True:  # Main game loop.
             # This stores the secret number the player needs to guess:
@@ -33,6 +69,7 @@ class BagelsWithWords:
             if not input('Do you want to play again? (y/n): ').lower(
             ).startswith('y'):
                 break
+            self.pre_intro()
         print('Thanks for playing!')
 
     def intro(self):
@@ -41,7 +78,7 @@ class BagelsWithWords:
 
 Based on Bagels, by Al Sweigart. Inspired by Wordle. Powered by Wordnik.
 
-I am thinking of a {self.word_length}-letter word.
+I am thinking of a {self._word_length}-letter word.
 Lower case. Not a plural. Try to guess what it is.
 Here are some clues:
 
@@ -66,7 +103,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         '%2C%20proper-noun-posessive' \
         '&minCorpusCount=10000&maxCorpusCount=-1' \
         '&minDictionaryCount=20&maxDictionaryCount=-1' \
-        f'&minLength={self.word_length}&maxLength={self.word_length}' \
+        f'&minLength={self._word_length}&maxLength={self._word_length}' \
         f'&api_key={self.api_key}'
 
         while True:
@@ -87,7 +124,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         while num_guesses <= self.max_guesses:
             guess = ''
             # Keep looping until they enter a valid guess:
-            while len(guess) != self.word_length or not check:
+            while len(guess) != self._word_length or not check:
                 print(f'Guess #{num_guesses}: ')
                 guess = input('> ').lower()
 
@@ -100,8 +137,8 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
                         continue
 
                 check = self._check_if_guess_exists(guess)
-                if len(guess) != self.word_length:
-                    print(f"Remember: {self.word_length}-letter word.")
+                if len(guess) != self._word_length:
+                    print(f"Remember: {self._word_length}-letter word.")
                 elif not check:
                     print("I don't recognize this word.")
 
@@ -152,7 +189,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
 
         letter_frequency = self._get_frequency(secret_word)
         clues = []
-        for i in range(self.word_length):
+        for i in range(self._word_length):
             clues.append("")
 
         # Check for all correct letters in the correct place.
