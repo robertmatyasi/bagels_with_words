@@ -25,7 +25,8 @@ class BagelsWithWords:
             secret_word = self.get_secret_word()
             print('\nI have thought up a word.')
             print(f'You have {self.max_guesses} guesses to get.\n')
-            print('Enter \'q\' at any time to quit.\n')
+            print('(Enter \'q\' to quit, or \'s\' to change the length of the ' \
+                  'secret word.)\n')
             # Initiate loop for guesses.
             self.guess_loop(secret_word)
             # Ask the player if they want to play again.
@@ -79,7 +80,6 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         Ask user for guesses. Enumerates guesses.
         Compare guesses to secret word.
         """
-
         num_guesses = 1
         while num_guesses <= self.max_guesses:
             guess = ''
@@ -88,11 +88,21 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
                 print(f'Guess #{num_guesses}: ')
                 guess = input('> ').lower()
 
-                if guess.lower() == 'q':
+                if guess.lower() == 'q': # Quit if they enter 'q'
                     confirm = input('Are you sure you want to quit? (y/n): ')
                     if confirm.lower().startswith('y'):
                         print('Thanks for playing!')
                         sys.exit()
+                    else:
+                        continue
+
+                elif guess.lower() == 's': # Set new word length if they press 's'
+                    confirm = input('Are you sure you want to set the length ' \
+                    'of the secret word and restart? (y/n): ')
+                    if confirm.lower().startswith('y'):
+                        self.word_length = self.set_word_length()
+                        self.run_game() # Restart the game
+                        sys.exit() # Exit after the new game, don't continue this loop.
                     else:
                         continue
 
@@ -113,6 +123,29 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
             if num_guesses > self.max_guesses:
                 print('You ran out of guesses.')
                 print(f'The answer was {secret_word}.')
+
+    def set_word_length(self):
+        """
+        User interface to set a new length for the secret word.
+        """
+        while True:
+            word_length = guess = input('\nHow many letters should the ' \
+            'secret word be? (\"RET\" defaults to 5.): ')
+
+            if word_length == '': # if user presses 'RET'
+                word_length = 5
+                break
+
+            try:
+                if int(word_length) < 1:
+                    print('Please enter a positive integer')
+                    continue
+                break
+            except ValueError:
+                print('Please enter a positive integer')
+
+        word_length = int(word_length)
+        return word_length
 
     def _check_if_guess_exists(self, guess):
         """
