@@ -120,7 +120,6 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         """
 
         num_guesses = 1
-        quit_flag = False
         while num_guesses <= self.max_guesses:
             guess = ''
             # Keep looping until they enter a valid guess:
@@ -141,9 +140,6 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
                     print(f"Remember: {self._word_length}-letter word.")
                 elif not check:
                     print("I don't recognize this word.")
-
-            if quit_flag:
-                break
 
             if guess == secret_word:
                 print(f"You got it in {num_guesses} guesses!")
