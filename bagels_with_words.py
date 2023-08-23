@@ -102,7 +102,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
                     if confirm.lower().startswith('y'):
                         self.word_length = self.set_word_length()
                         self.run_game() # Restart the game
-                        sys.exit() # Exit after the new game, don't continue this loop.
+                        sys.exit() # Exit after the new game.
                     else:
                         continue
 
@@ -123,29 +123,6 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
             if num_guesses > self.max_guesses:
                 print('You ran out of guesses.')
                 print(f'The answer was {secret_word}.')
-
-    def set_word_length(self):
-        """
-        User interface to set a new length for the secret word.
-        """
-        while True:
-            word_length = guess = input('\nHow many letters should the ' \
-            'secret word be? (\"RET\" defaults to 5.): ')
-
-            if word_length == '': # if user presses 'RET'
-                word_length = 5
-                break
-
-            try:
-                if int(word_length) < 1:
-                    print('Please enter a positive integer')
-                    continue
-                break
-            except ValueError:
-                print('Please enter a positive integer')
-
-        word_length = int(word_length)
-        return word_length
 
     def _check_if_guess_exists(self, guess):
         """
@@ -207,6 +184,29 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         else:
             # Make a single string from the list of string clues.
             return ' '.join(clues)
+
+    def set_word_length(self):
+        """
+        User interface to set a new length for the secret word.
+        """
+        while True:
+            word_length = guess = input('\nHow many letters should the ' \
+                                        'secret word be? (\"RET\" defaults to 5.): ')
+
+            if word_length == '': # if user presses 'RET'
+                word_length = 5
+                break
+
+            try:
+                if int(word_length) < 1:
+                    print('Please enter a positive integer')
+                    continue
+                break
+            except ValueError:
+                print('Please enter a positive integer')
+
+        word_length = int(word_length)
+        return word_length
 
 # If the program is run (instead of imported), run the game:
 if (__name__) == ('__main__'):
