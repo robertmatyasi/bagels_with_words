@@ -1,4 +1,4 @@
-import requests, json, sys
+import requests, json, sys, readline
 
 class BagelsWithWords:
     """
