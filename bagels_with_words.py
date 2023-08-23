@@ -18,8 +18,30 @@ class BagelsWithWords:
             self.config = json.load(f)
         self.api_key = self.config["wordnik"]["api_key"]
 
+    def pre_intro(self):
+
+        while True:
+            user_length = input("""
+            How many letters should the secret word be?
+            \'RET\' defaults to 5.\n
+            """)
+
+            if user_length == '':
+                break  # keep default length of 5
+
+            try:
+                self.word_length = int(user_length)
+                if self.word_length < 1:
+                    print('\nPlease enter a positive integer')
+                    continue
+                break
+            except ValueError:
+                print('\nPlease enter a positive integer')
+                continue
+
     def run_game(self):
         """Main loop for the game."""
+        self.pre_intro()
         self.intro()
         while True:  # Main game loop.
             # This stores the secret number the player needs to guess:
@@ -33,6 +55,7 @@ class BagelsWithWords:
             if not input('Do you want to play again? (y/n): ').lower(
             ).startswith('y'):
                 break
+            self.pre_intro()
         print('Thanks for playing!')
 
     def intro(self):
@@ -83,7 +106,6 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         """
 
         num_guesses = 1
-        quit_flag = False
         while num_guesses <= self.max_guesses:
             guess = ''
             # Keep looping until they enter a valid guess:
@@ -104,9 +126,6 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
                     print(f"Remember: {self.word_length}-letter word.")
                 elif not check:
                     print("I don't recognize this word.")
-
-            if quit_flag:
-                break
 
             if guess == secret_word:
                 print(f"You got it in {num_guesses} guesses!")
