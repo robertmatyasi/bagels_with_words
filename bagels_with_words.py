@@ -1,5 +1,6 @@
 import requests, json, sys
 
+
 class BagelsWithWords:
     """
     A deductive logic game where you must guess a word based on clues.
@@ -17,10 +18,32 @@ class BagelsWithWords:
             self.config = json.load(f)
         self.api_key = self.config["wordnik"]["api_key"]
 
+    def pre_intro(self):
+
+        while True:
+            user_length = input("""
+            How many letters should the secret word be?
+            \'RET\' defaults to 5.\n
+            """)
+
+            if user_length == '':
+                break  # keep default length of 5
+
+            try:
+                self.word_length = int(user_length)
+                if self.word_length < 1:
+                    print('\nPlease enter a positive integer')
+                    continue
+                break
+            except ValueError:
+                print('\nPlease enter a positive integer')
+                continue
+
     def run_game(self):
         """Main loop for the game."""
+        self.pre_intro()
         self.intro()
-        while True:     # Main game loop.
+        while True:  # Main game loop.
             # This stores the secret number the player needs to guess:
             secret_word = self.get_secret_word()
             print('\nI have thought up a word.')
@@ -32,9 +55,11 @@ class BagelsWithWords:
             if not input('Do you want to play again? (y/n): ').lower(
             ).startswith('y'):
                 break
+            self.pre_intro()
         print('Thanks for playing!')
 
     def intro(self):
+
         print(f'''\nBagels with Words, a deductive logic game.
 
 Based on Bagels, by Al Sweigart. Inspired by Wordle. Powered by Wordnik.
@@ -104,7 +129,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
 
             if guess == secret_word:
                 print(f"You got it in {num_guesses} guesses!")
-                break # They're correct, so break out of this loop.
+                break  # They're correct, so break out of this loop.
 
             clues = self.get_clues(guess, secret_word)
             print(clues)
@@ -146,7 +171,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
 
         letter_frequency = self._get_frequency(secret_word)
         clues = []
-        for i in range (self.word_length):
+        for i in range(self.word_length):
             clues.append("")
 
         # Check for all correct letters in the correct place.
@@ -175,7 +200,8 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
             # Make a single string from the list of string clues.
             return ' '.join(clues)
 
+
 # If the program is run (instead of imported), run the game:
 if (__name__) == ('__main__'):
-    bw = BagelsWithWords(5, 10) # Five letters. Ten guesses.
+    bw = BagelsWithWords(5, 10)  # default is 5 letters, 10 guesses
     bw.run_game()

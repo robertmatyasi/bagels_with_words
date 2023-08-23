@@ -2,3 +2,7 @@
 *.pyc
 __pycache__/
 config.json
+/config.json~
+/bagels/
+/user_interface.py~
+/old/
