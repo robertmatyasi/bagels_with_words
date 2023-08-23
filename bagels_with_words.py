@@ -62,7 +62,7 @@ the clues would be "Fermi Pico Bruno Bruno Bruno".''')
         '%2C%20pronoun%2C%20preposition%2C%20past-participle' \
         '&excludePartOfSpeech=family-name%2C%20given-name%2C%20noun-plural' \
         '%2C%20noun-posessive%2C%20proper-noun%2C%20proper-noun-plural' \
-        '%2C%20proper-noun-posessive' \
+        '%2C%20proper-noun-posessive%2C%20abbreviation' \
         '&minCorpusCount=10000&maxCorpusCount=-1' \
         '&minDictionaryCount=20&maxDictionaryCount=-1' \
         f'&minLength={self.word_length}&maxLength={self.word_length}' \
