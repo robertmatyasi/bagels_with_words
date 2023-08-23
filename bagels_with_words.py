@@ -30,9 +30,13 @@ class BagelsWithWords:
                 break  # keep default length of 5
 
             try:
-                self.word_length = user_length
+                self.word_length = int(user_length)
+                if self.word_length < 1:
+                    print('\nPlease enter a positive integer')
+                    continue
                 break
             except ValueError:
+                print('\nPlease enter a positive integer')
                 continue
 
     def run_game(self):
